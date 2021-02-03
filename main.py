@@ -2,7 +2,7 @@ import sys
 import getopt
 
 from api import OWMKEY
-from data.constants import *
+from data.constants import OPTIONS, LONG_OPTIONS, UNITS, LANGUAGES, USAGE
 from data.WeatherData import WeatherDataProvider, WeatherDataParser
 from util.MetaData import MetaDataProvider
 
