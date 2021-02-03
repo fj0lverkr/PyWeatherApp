@@ -1,10 +1,7 @@
-from requests import get
-
 from api import OWMKEY
 from data.WeatherData import WeatherDataProvider
+from util.MetaData import MetaDataProvider
 
-ip = get("https://api.ipify.org").text
-latlong = get(f"https://ipapi.co/{ip}/latlong/").text.split(',')
-
-wdp = WeatherDataProvider(OWMKEY, ip, latlong)
+mdp = MetaDataProvider()
+wdp = WeatherDataProvider(OWMKEY, mdp.client_ip, mdp.derived_location)
 print(wdp.get_weather_data())
