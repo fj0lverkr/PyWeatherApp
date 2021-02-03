@@ -45,8 +45,7 @@ def main(argv):
     wdp = WeatherDataProvider(
         OWMKEY, mdp.client_ip, mdp.derived_location, language, temperature_units)
     wdparser = WeatherDataParser(wdp.get_weather_data())
-    # wdparser.parse_data()
-    print(WEATHER_ICONS)
+    wdparser.parse_data()
 
 
 if __name__ == "__main__":
