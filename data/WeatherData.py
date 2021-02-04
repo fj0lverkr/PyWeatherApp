@@ -19,6 +19,7 @@ class WeatherDataProvider:
         else:
             return get(f"http://api.openweathermap.org/data/2.5/weather?q={self.city}&appid={self.api_key}&lang={self.lang}&units={self.units}").json()
 
+
 class WeatherDataParser:
     def __init__(self, json_data, tf):
         self.data = json_data
@@ -31,6 +32,7 @@ class WeatherDataParser:
         sunrise = int(self.data['sys']['sunrise'])
         sunset = int(self.data['sys']['sunset'])
         current_time = int(self.data['dt'])
+        shift_seconds = int(self.data['timezone'])
         sunrise_pretty = datetime.fromtimestamp(
             sunrise).strftime(self.timeformat)
         sunset_pretty = datetime.fromtimestamp(
