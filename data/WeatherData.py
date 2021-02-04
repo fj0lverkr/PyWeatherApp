@@ -55,6 +55,8 @@ class WeatherDataParser:
             weather_icon = IC[day_night]['scattered_clouds']
         elif weather_icon_id in [803, 804]:
             weather_icon = IC[day_night]['broken_clouds']
+        else:
+            weather_icon = IC[day_night]['clear_sky']
 
         weather = f"{location} ({current_time_pretty}):\n\t{weather_icon}{weather_description}"
 
