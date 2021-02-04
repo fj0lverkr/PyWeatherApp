@@ -5,20 +5,24 @@ from data.constants import WEATHER_ICONS as IC
 
 
 class WeatherDataProvider:
-    def __init__(self, api_key, ip, latlong, lang, units):
+    def __init__(self, api_key, ip, latlong, lang, units, city):
         self.api_key = api_key
         self.ip = ip
         self.lati, self.longi = latlong
         self.lang = lang
         self.units = units
+        self.city = city
 
     def get_weather_data(self):
-        return get(f"http://api.openweathermap.org/data/2.5/weather?lat={self.lati}&lon={self.longi}&appid={self.api_key}&lang={self.lang}&units={self.units}").json()
-
+        if self.city == "":
+            return get(f"http://api.openweathermap.org/data/2.5/weather?lat={self.lati}&lon={self.longi}&appid={self.api_key}&lang={self.lang}&units={self.units}").json()
+        else:
+            return get(f"http://api.openweathermap.org/data/2.5/weather?q={self.city}&appid={self.api_key}&lang={self.lang}&units={self.units}").json()
 
 class WeatherDataParser:
-    def __init__(self, json_data):
+    def __init__(self, json_data, tf):
         self.data = json_data
+        self.timeformat = '%H:%M' if tf == "24" else '%I:%M %p'
 
     def parse_data(self):
         location = self.data['name']
@@ -28,11 +32,11 @@ class WeatherDataParser:
         sunset = int(self.data['sys']['sunset'])
         current_time = int(self.data['dt'])
         sunrise_pretty = datetime.fromtimestamp(
-            sunrise).strftime('%H:%M:%S')
+            sunrise).strftime(self.timeformat)
         sunset_pretty = datetime.fromtimestamp(
-            sunset).strftime('%H:%M:%S')
+            sunset).strftime(self.timeformat)
         current_time_pretty = datetime.fromtimestamp(
-            current_time).strftime('%H:%M:%S')
+            current_time).strftime(self.timeformat)
 
         if sunrise <= current_time < sunset:
             day_night = "day"
