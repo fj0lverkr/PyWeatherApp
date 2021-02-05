@@ -1,7 +1,7 @@
 from requests import get
 from datetime import datetime
 
-from data.constants import WEATHER_ICONS as IC
+from data.constants import WEATHER_ICONS as IC        
 
 
 class WeatherDataProvider:
@@ -40,9 +40,10 @@ class WeatherDataParser:
             sunset + shift_seconds).strftime(self.timeformat)
         current_time_pretty = datetime.utcfromtimestamp(
             current_time + shift_seconds).strftime(self.timeformat)
-        sunrise_icon = IC['time']['sunrise']
-        sunset_icon = IC['time']['sunset']
         temp, feels_like, min, max, pressure, humidity = self.data['main'].values()
+        visibility = self.data['visibility']
+        beaufort = self.convert_to_beaufort(float(self.data['wind']['speed']))
+        wind_degrees = int(self.data['wind']['deg'])
 
         if sunrise <= current_time < sunset:
             day_night = "day"
@@ -56,6 +57,11 @@ class WeatherDataParser:
         else:
             temp_unit = "kelvin"
 
+        # Icons
+        temp_icon = IC['units'][temp_unit]
+        sunrise_icon, sunset_icon = IC['time'].values()
+        feels_icon, max_icon, min_icon, press_icon, humid_icon, visibility_icon = IC['misc'].values()
+        beaufort_icon = IC['wind']['speed'][beaufort]
 
         if 199 < weather_icon_id < 233:
             weather_icon = IC[day_night]['thunderstorm']
@@ -76,11 +82,70 @@ class WeatherDataParser:
         else:
             weather_icon = IC[day_night]['clear_sky']
 
+        # Parse String
         weather = f" {location} {current_time_pretty} ({sunrise_icon}{sunrise_pretty} - {sunset_icon}{sunset_pretty}):"
-        weather += f"\n {weather_icon}{weather_description} {temp}{IC['units'][temp_unit]}"
+        weather += f"\n {weather_icon}{weather_description}, {temp}{temp_icon} ({feels_icon} {feels_like}{temp_icon}, {min_icon} {min}{temp_icon} - {max_icon} {max}{temp_icon})"
+        weather += f"\n {press_icon}{pressure}hPa, {humid_icon} {humidity}%, {visibility_icon} {visibility}m, {beaufort_icon} {beaufort}BFT"
 
+        # Temp prints
         print(weather)
-
         print(f"\n\nRAW DATA:\n")
         for key, val in self.data.items():
             print(f"{key} -> {val}")
+
+        
+    def convert_to_beaufort(self, speed):
+        if self.units == "imperial":
+            if speed < 1.0:
+                return 0
+            elif 1.0 <= speed < 4.0:
+                return 1
+            elif 4.0 <= speed < 8.0:
+                return 2
+            elif 8.0 <= speed < 13.0:
+                return 3
+            elif 13.0 <= speed < 19.0:
+                return 4
+            elif 19.0 <= speed < 25.0:
+                return 5
+            elif 25.0 <= speed < 32.0:
+                return 6
+            elif 32.0 <= speed < 39.0:
+                return 7
+            elif 39.0 <= speed < 47.0:
+                return 8
+            elif 47.0 <= speed < 55.0:
+                return 9
+            elif 55.0 <= speed < 64.0:
+                return 10
+            elif 64.0 <= speed < 73.0:
+                return 11
+            else:
+                return 12
+        else:
+            if 0.0 <= speed < 0.3:
+                return 0
+            elif 0.3 <= speed < 1.6:
+                return 1
+            elif 1.6 <= speed < 3.4:
+                return 2
+            elif 3.4 <= speed < 5.5:
+                return 3
+            elif 5.5 <= speed < 8.0:
+                return 4
+            elif 8.0 <= speed < 10.8:
+                return 5
+            elif 10.8 <= speed < 13.9:
+                return 6
+            elif 13.9 <= speed < 17.2:
+                return 7
+            elif 17.2 <= speed < 20.8:
+                return 8
+            elif 20.8 <= speed < 24.5:
+                return 9
+            elif 24.5 <= speed < 28.5:
+                return 10
+            elif 28.5 <= speed < 32.7:
+                return 11
+            else:
+                return 12

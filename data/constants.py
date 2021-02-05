@@ -42,6 +42,31 @@ WEATHER_ICONS = {
     "time": {
         "sunrise": "瀞",
         "sunset": "漢"
+    },
+    "wind": {
+        "speed": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+    "misc": {
+        "feelslike": "",
+        "max": "ﬢ",
+        "min": "ﬠ",
+        "pressure": "猪",
+        "humidity": "",
+        "eye": ""
     }
 }
 LANGUAGES = [
