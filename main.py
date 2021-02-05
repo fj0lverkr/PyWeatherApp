@@ -65,7 +65,7 @@ def main(argv):
     else:
         wdp = WeatherDataProvider(
             OWMKEY, 0, [0, 0], language, temperature_units, city)
-    wdparser = WeatherDataParser(wdp.get_weather_data(), timeformat)
+    wdparser = WeatherDataParser(wdp.get_weather_data(), temperature_units, timeformat)
     wdparser.parse_data()
 
 def print_languages():

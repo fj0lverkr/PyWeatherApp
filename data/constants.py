@@ -38,6 +38,10 @@ WEATHER_ICONS = {
         "celsius": "糖",
         "fahrenheit": "宅",
         "kelvin": "洞",
+    },
+    "time": {
+        "sunrise": "瀞",
+        "sunset": "漢"
     }
 }
 LANGUAGES = [

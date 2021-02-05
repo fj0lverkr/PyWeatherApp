@@ -21,8 +21,9 @@ class WeatherDataProvider:
 
 
 class WeatherDataParser:
-    def __init__(self, json_data, tf):
+    def __init__(self, json_data, u, tf):
         self.data = json_data
+        self.units = u
         self.timeformat = '%H:%M' if tf == "24" else '%I:%M %p'
 
     def parse_data(self):
@@ -33,17 +34,28 @@ class WeatherDataParser:
         sunset = int(self.data['sys']['sunset'])
         current_time = int(self.data['dt'])
         shift_seconds = int(self.data['timezone'])
-        sunrise_pretty = datetime.fromtimestamp(
-            sunrise).strftime(self.timeformat)
-        sunset_pretty = datetime.fromtimestamp(
-            sunset).strftime(self.timeformat)
-        current_time_pretty = datetime.fromtimestamp(
-            current_time).strftime(self.timeformat)
+        sunrise_pretty = datetime.utcfromtimestamp(
+            sunrise + shift_seconds).strftime(self.timeformat)
+        sunset_pretty = datetime.utcfromtimestamp(
+            sunset + shift_seconds).strftime(self.timeformat)
+        current_time_pretty = datetime.utcfromtimestamp(
+            current_time + shift_seconds).strftime(self.timeformat)
+        sunrise_icon = IC['time']['sunrise']
+        sunset_icon = IC['time']['sunset']
+        temp, feels_like, min, max, pressure, humidity = self.data['main'].values()
 
         if sunrise <= current_time < sunset:
             day_night = "day"
         else:
             day_night = "night"
+
+        if self.units == "imperial":
+            temp_unit = "fahrenheit"
+        elif self.units == "metric":
+            temp_unit = "celsius"
+        else:
+            temp_unit = "kelvin"
+
 
         if 199 < weather_icon_id < 233:
             weather_icon = IC[day_night]['thunderstorm']
@@ -64,9 +76,11 @@ class WeatherDataParser:
         else:
             weather_icon = IC[day_night]['clear_sky']
 
-        weather = f"{location} ({current_time_pretty}):\n\t{weather_icon}{weather_description}"
+        weather = f" {location} {current_time_pretty} ({sunrise_icon}{sunrise_pretty} - {sunset_icon}{sunset_pretty}):"
+        weather += f"\n {weather_icon}{weather_description} {temp}{IC['units'][temp_unit]}"
 
         print(weather)
 
+        print(f"\n\nRAW DATA:\n")
         for key, val in self.data.items():
             print(f"{key} -> {val}")
