@@ -58,9 +58,13 @@ def main(argv):
                 print(USAGE)
                 sys.exit(2)
 
-    mdp = MetaDataProvider()
-    wdp = WeatherDataProvider(
-        OWMKEY, mdp.client_ip, mdp.derived_location, language, temperature_units, city)
+    if city == "":
+        mdp = MetaDataProvider()
+        wdp = WeatherDataProvider(
+            OWMKEY, mdp.client_ip, mdp.derived_location, language, temperature_units, city)
+    else:
+        wdp = WeatherDataProvider(
+            OWMKEY, 0, [0, 0], language, temperature_units, city)
     wdparser = WeatherDataParser(wdp.get_weather_data(), timeformat)
     wdparser.parse_data()
 
