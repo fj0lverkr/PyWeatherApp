@@ -1,23 +1,19 @@
 from requests import get
 from datetime import datetime
 
-from data.constants import WEATHER_ICONS as IC        
+from data.constants import WEATHER_ICONS as IC
 
 
 class WeatherDataProvider:
-    def __init__(self, api_key, ip, latlong, lang, units, city):
+    def __init__(self, api_key, ip, latlong, lang, units):
         self.api_key = api_key
         self.ip = ip
-        self.lati, self.longi = latlong
+        self.lati, self.longi = latlong.values()
         self.lang = lang
         self.units = units
-        self.city = city
 
     def get_weather_data(self):
-        if self.city == "":
-            return get(f"http://api.openweathermap.org/data/2.5/weather?lat={self.lati}&lon={self.longi}&appid={self.api_key}&lang={self.lang}&units={self.units}").json()
-        else:
-            return get(f"http://api.openweathermap.org/data/2.5/weather?q={self.city}&appid={self.api_key}&lang={self.lang}&units={self.units}").json()
+        return get(f"http://api.openweathermap.org/data/2.5/weather?lat={self.lati}&lon={self.longi}&appid={self.api_key}&lang={self.lang}&units={self.units}").json()
 
 
 class WeatherDataParser:
@@ -40,7 +36,8 @@ class WeatherDataParser:
             sunset + shift_seconds).strftime(self.timeformat)
         current_time_pretty = datetime.utcfromtimestamp(
             current_time + shift_seconds).strftime(self.timeformat)
-        temp, feels_like, min, max, pressure, humidity = self.data['main'].values()
+        temp, feels_like, min, max, pressure, humidity = self.data['main'].values(
+        )
         visibility = self.data['visibility']
         beaufort = self.convert_to_beaufort(float(self.data['wind']['speed']))
         wind_degrees = int(self.data['wind']['deg'])
@@ -60,7 +57,8 @@ class WeatherDataParser:
         # Icons
         temp_icon = IC['units'][temp_unit]
         sunrise_icon, sunset_icon = IC['time'].values()
-        feels_icon, max_icon, min_icon, press_icon, humid_icon, visibility_icon = IC['misc'].values()
+        feels_icon, max_icon, min_icon, press_icon, humid_icon, visibility_icon = IC['misc'].values(
+        )
         beaufort_icon = IC['wind']['speed'][beaufort]
 
         if 199 < weather_icon_id < 233:
@@ -85,7 +83,7 @@ class WeatherDataParser:
         # Parse String
         weather = f" {location} {current_time_pretty} ({sunrise_icon}{sunrise_pretty} - {sunset_icon}{sunset_pretty}):"
         weather += f"\n {weather_icon}{weather_description}, {temp}{temp_icon} ({feels_icon} {feels_like}{temp_icon}, {min_icon} {min}{temp_icon} - {max_icon} {max}{temp_icon})"
-        weather += f"\n {press_icon}{pressure}hPa, {humid_icon} {humidity}%, {visibility_icon} {visibility}m, {beaufort_icon} {beaufort}BFT"
+        weather += f"\n {press_icon}{pressure}hPa, {humid_icon} {humidity}%, {visibility_icon} {visibility}m, {beaufort_icon} {beaufort} BFT"
 
         # Temp prints
         print(weather)
@@ -93,7 +91,6 @@ class WeatherDataParser:
         for key, val in self.data.items():
             print(f"{key} -> {val}")
 
-        
     def convert_to_beaufort(self, speed):
         if self.units == "imperial":
             if speed < 1.0:

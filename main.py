@@ -52,26 +52,25 @@ def main(argv):
                         f"Invalid value for option {opt}, {arg} is not in {LANGUAGES}.")
                     sys.exit(2)
             elif opt == "--listlangs":
-                    print_languages()
-                    sys.exit(0)
+                print_languages()
+                sys.exit(0)
             else:
                 print(USAGE)
                 sys.exit(2)
 
-    if city == "":
-        mdp = MetaDataProvider()
-        wdp = WeatherDataProvider(
-            OWMKEY, mdp.client_ip, mdp.derived_location, language, temperature_units, city)
-    else:
-        wdp = WeatherDataProvider(
-            OWMKEY, 0, [0, 0], language, temperature_units, city)
-    wdparser = WeatherDataParser(wdp.get_weather_data(), temperature_units, timeformat)
+    mdp = MetaDataProvider(location=city)
+    wdp = WeatherDataProvider(
+        OWMKEY, mdp.client_ip, mdp.derived_location, language, temperature_units)
+    wdparser = WeatherDataParser(
+        wdp.get_weather_data(), temperature_units, timeformat)
     wdparser.parse_data()
+
 
 def print_languages():
     print("These are the languages supported by Openweathermap:")
     for k, l in LANGUAGES_PRINTABLE.items():
         print(f"\t{l}: {k}")
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
