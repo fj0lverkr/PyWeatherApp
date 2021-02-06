@@ -59,11 +59,14 @@ def main(argv):
                 sys.exit(2)
 
     mdp = MetaDataProvider(location=city)
-    wdp = WeatherDataProvider(
-        OWMKEY, mdp.client_ip, mdp.derived_location, language, temperature_units)
-    wdparser = WeatherDataParser(
-        wdp.get_weather_data(), temperature_units, timeformat)
-    wdparser.parse_data()
+    if mdp.client_online :
+        wdp = WeatherDataProvider(
+            OWMKEY, mdp.client_ip, mdp.derived_location, language, temperature_units)
+        wdparser = WeatherDataParser(
+            wdp.get_weather_data(), temperature_units, timeformat)
+        wdparser.parse_data()
+    else:
+        print("No internet connection available.")
 
 
 def print_languages():
