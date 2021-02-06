@@ -102,8 +102,7 @@ WEATHER_ICONS = {
         "min": "ﬠ",
         "pressure": "猪",
         "humidity": "",
-        "eye": "",
-        "compass": ""
+        "eye": ""
     }
 }
 ```
