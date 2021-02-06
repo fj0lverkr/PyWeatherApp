@@ -1,4 +1,13 @@
 # A small weather script in Python
+This is a small but versatile weather data script written in Python (3.8).
+
+Run main.py to get local weather data.
+
+Run main.py -h (--help) to get available parameters.
+
+Tested on both Linux and Windows 10 (PowerShell) using the following Nerdfonts font:
+- MesloLGS NF
+
 ## API keys
 To make this work you should add a file 'api.py' to the root of the project (at the level opf main.py) which contains your api keys:
 ```
