@@ -16,7 +16,7 @@ Tested on both Linux and Windows 10 (PowerShell) using the following Nerdfonts f
 To make this work you should add a file 'api.py' to the root of the project (at the level opf main.py) which contains your api keys:
 ```
 OWMKEY = "YOUR_API_KEY"
-OPENKAGE = "YOUR_API_KEY"
+OPENCAGE = "YOUR_API_KEY"
 ```
 The openweathermap key (OWMKEY) can be obtained by creating a free acount on https://openweathermap.org/, the Opencage key (OPENCAGE) can be obtained similarly (and also for free) on https://opencagedata.com/
 
