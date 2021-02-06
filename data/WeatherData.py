@@ -40,7 +40,7 @@ class WeatherDataParser:
         )
         visibility = self.data['visibility']
         beaufort = self.convert_to_beaufort(float(self.data['wind']['speed']))
-        wind_degrees = int(self.data['wind']['deg'])
+        wind_direction = self.convert_to_cardinal_direction(float(self.data['wind']['deg']))
 
         if sunrise <= current_time < sunset:
             day_night = "day"
@@ -54,12 +54,37 @@ class WeatherDataParser:
         else:
             temp_unit = "kelvin"
 
+        # The following are only present in the response depending on the presence of the phenomena
+        # clouds
+        if 'clouds' in self.data:
+            clouds_pct = self.data['clouds']['all']
+        else:
+            clouds_pct = -1
+
+        # rain
+        if 'rain' in self.data:
+            rain_1h = self.data['rain']['1h']
+            rain_3h = self.data['rain']['3h']
+        else:
+            rain_1h = -1
+            rain_3h = -1
+        
+        #snow
+        if 'snow' in self.data:
+            snow_1h = self.data['snow']['1h']
+            snow_3h = self.data['snow']['3h']
+        else:
+            snow_1h = -1
+            snow_3h = -1
+
+
         # Icons
         temp_icon = IC['units'][temp_unit]
         sunrise_icon, sunset_icon = IC['time'].values()
         feels_icon, max_icon, min_icon, press_icon, humid_icon, visibility_icon = IC['misc'].values(
         )
         beaufort_icon = IC['wind']['speed'][beaufort]
+        wind_direction_icon = IC['wind']['direction'][wind_direction]
 
         if 199 < weather_icon_id < 233:
             weather_icon = IC[day_night]['thunderstorm']
@@ -83,7 +108,7 @@ class WeatherDataParser:
         # Parse String
         weather = f" {location} {current_time_pretty} ({sunrise_icon}{sunrise_pretty} - {sunset_icon}{sunset_pretty}):"
         weather += f"\n {weather_icon}{weather_description}, {temp}{temp_icon} ({feels_icon} {feels_like}{temp_icon}, {min_icon} {min}{temp_icon} - {max_icon} {max}{temp_icon})"
-        weather += f"\n {press_icon}{pressure}hPa, {humid_icon} {humidity}%, {visibility_icon} {visibility}m, {beaufort_icon} {beaufort} BFT"
+        weather += f"\n {press_icon}{pressure}hPa, {humid_icon} {humidity}%, {visibility_icon} {visibility}m, {beaufort_icon} {beaufort} BFT {wind_direction_icon}"
 
         # Temp prints
         print(weather)
@@ -146,3 +171,37 @@ class WeatherDataParser:
                 return 11
             else:
                 return 12
+
+    def convert_to_cardinal_direction(self, degrees):
+            if 348.75 <= degrees < 11.25:
+                return "N"
+            elif 11.25 <= degrees < 33.75:
+                return "NNE"
+            elif 33.75 <= degrees < 56.25:
+                return "NE"
+            elif 56.25 <= degrees < 78.75:
+                return "ENE"
+            elif 78.75 <= degrees < 101.25:
+                return "E"
+            elif 101.25 <= degrees < 123.75:
+                return "ESE"
+            elif 123.75 <= degrees < 146.25:
+                return "SE"
+            elif 146.25 <= degrees < 168.75:
+                return "SSE"
+            elif 168.75 <= degrees < 191.25:
+                return "S"
+            elif 191.25 <= degrees < 213.75:
+                return "SSW"
+            elif 213.75 <= degrees < 236.25:
+                return "SW"
+            elif 236.25 <= degrees < 258.75:
+                return "WSW"
+            elif 258.75 <= degrees < 281.25:
+                return "W"
+            elif 281.25 <= degrees < 303.75:
+                return "WNW"
+            elif 303.75 <= degrees < 326.25:
+                return "NW"
+            else:
+                return "NNW"
