@@ -1,5 +1,6 @@
 OPTIONS = "hu:l:c:t:"
-LONG_OPTIONS = ["help", "units=", "language=", "city=", "timeformat=", "listlangs"]
+LONG_OPTIONS = ["help", "units=", "language=",
+                "city=", "timeformat=", "listlangs"]
 UNITS = ["metric", "imperial"]
 TIMEFORMATS = ["12", "24"]
 USAGE = "Usage: main.py -h -u -l -c -t"
@@ -8,8 +9,8 @@ USAGE += "\n\t-u, --units: units (metric or imperial), defaults to metric."
 USAGE += "\n\t-l, --language: language code (see --listlangs for available options), defaults to 'en' (English)."
 USAGE += "\n\t-c, --city: city for which the weather should be retrieved. Defaults to approximate location (based on IP address)."
 USAGE += "\n\t-t, --timeformat: preferred time format (12 or 24), defaults to 24."
-USAGE += "\n\t--listlangs: slow a list of available languages."
-USAGE += "\nNote that none of these options are required, the program will run on defaults."
+USAGE += "\n\t--listlangs: show a list of available languages."
+USAGE += "\ntNote that none of these options are required, the program will run on defaults."
 
 WEATHER_ICONS = {
     "day": {
