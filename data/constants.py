@@ -59,7 +59,25 @@ WEATHER_ICONS = {
             "",
             "",
             ""
-        ]
+        ],
+        "direction": {
+            "N" : "",
+            "NNE": "",
+            "NE" : "",
+            "ENE": "",
+            "E": "",
+            "ESE": "",
+            "SE": "",
+            "SSE": "",
+            "S": "",
+            "SSW": "",
+            "SW": "",
+            "WSW": "",
+            "W": "",
+            "WNW": "",
+            "NW": "",
+            "NNW": ""
+        }
     },
     "misc": {
         "feelslike": "",
@@ -70,6 +88,7 @@ WEATHER_ICONS = {
         "eye": ""
     }
 }
+
 LANGUAGES = [
     "af",  # Afrikaans
     "al",  # Albanian
