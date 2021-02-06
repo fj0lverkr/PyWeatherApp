@@ -5,6 +5,10 @@ Run main.py to get local weather data.
 
 Run main.py -h (--help) to get available parameters.
 
+Full example:
+```
+main.py -c 'las vegas' -u imperial -t 12 -l nl
+```
 Tested on both Linux and Windows 10 (PowerShell) using the following Nerdfonts font:
 - MesloLGS NF
 
