@@ -5,7 +5,7 @@ class MetaDataProvider:
     def __init__(self, location=""):
         self.location = location
         try: 
-            get("https://api.ipify.org", timeout=10)
+            get("https://api.ipify.org", timeout=20)
             self.internet_connected = True
             if self.location == "":
                 self.ip = get("https://api.ipify.org").text
