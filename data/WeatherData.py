@@ -64,7 +64,10 @@ class WeatherDataParser:
         # rain
         if 'rain' in self.data:
             rain_1h = self.data['rain']['1h']
-            rain_3h = self.data['rain']['3h']
+            if '3h' in self.data['rain']:
+                rain_3h = self.data['rain']['3h']
+            else:
+                rain_3h = -1
         else:
             rain_1h = -1
             rain_3h = -1
@@ -72,7 +75,10 @@ class WeatherDataParser:
         #snow
         if 'snow' in self.data:
             snow_1h = self.data['snow']['1h']
-            snow_3h = self.data['snow']['3h']
+            if '3h' in self.data['snow']:
+                snow_3h = self.data['snow']['3h']
+            else:
+                snow_3h = -1
         else:
             snow_1h = -1
             snow_3h = -1
@@ -90,18 +96,32 @@ class WeatherDataParser:
             weather_icon = IC[day_night]['thunderstorm']
         elif (299 < weather_icon_id < 322) or 499 < weather_icon_id < 532:
             weather_icon = IC[day_night]['rain']
+            if rain_1h > 0 and rain_3h > 0:
+                weather_description += f" ({rain_1h} mm/1h, {rain_3h} mm/3h)"
+            elif rain_1h > 0:
+                 weather_description += f" ({rain_1h} mm/1h)"
         elif 599 < weather_icon_id < 623:
             weather_icon = IC[day_night]['snow']
+            if snow_1h > 0 and snow_3h > 0:
+                weather_description += f" ({snow_1h} mm/1h, {snow_3h} mm/3h)"
+            elif snow_1h > 0:
+                weather_description += f" ({snow_1h} mm/1h)"
         elif 700 < weather_icon_id < 782:
             weather_icon = IC[day_night]['mist']
         elif weather_icon_id == 800:
             weather_icon = IC[day_night]['clear_sky']
         elif weather_icon_id == 801:
             weather_icon = IC[day_night]['few_clouds']
+            if clouds_pct > 0:
+                weather_description += f" ({clouds_pct}%)"
         elif weather_icon_id == 802:
             weather_icon = IC[day_night]['scattered_clouds']
+            if clouds_pct > 0:
+                weather_description += f" ({clouds_pct}%)"
         elif weather_icon_id in [803, 804]:
             weather_icon = IC[day_night]['broken_clouds']
+            if clouds_pct > 0:
+                weather_description += f" ({clouds_pct}%)"
         else:
             weather_icon = IC[day_night]['clear_sky']
 
@@ -110,11 +130,7 @@ class WeatherDataParser:
         weather += f"\n {weather_icon}{weather_description}, {temp}{temp_icon} ({feels_icon} {feels_like}{temp_icon}, {min_icon} {min}{temp_icon} - {max_icon} {max}{temp_icon})"
         weather += f"\n {press_icon}{pressure}hPa, {humid_icon} {humidity}%, {visibility_icon} {visibility}m, {beaufort_icon} {beaufort} BFT {wind_direction_icon}"
 
-        # Temp prints
-        print(weather)
-        print(f"\n\nRAW DATA:\n")
-        for key, val in self.data.items():
-            print(f"{key} -> {val}")
+        return weather
 
     def convert_to_beaufort(self, speed):
         if self.units == "imperial":

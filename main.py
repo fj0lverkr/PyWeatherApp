@@ -64,9 +64,9 @@ def main(argv):
             OWMKEY, mdp.client_ip, mdp.derived_location, language, temperature_units)
         wdparser = WeatherDataParser(
             wdp.get_weather_data(), temperature_units, timeformat)
-        wdparser.parse_data()
+        print(wdparser.parse_data())
     else:
-        print("No internet connection available.")
+        print("Unable to fetch weather data in time.")
 
 
 def print_languages():
