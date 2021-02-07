@@ -7,11 +7,18 @@ Run main.py -h (--help) to get available parameters.
 
 Full example:
 ```
-main.py -c 'las vegas' -u imperial -t 12 -l nl
+python main.py -c 'las vegas' -u imperial -t 12 -l nl
 ```
+You can add something like the line above at the top of your $PROFILE (PowerShell) or .bashrc (.zshrc, etc) to have it set as a greeter each time you run your terminal of choice.
+
 Tested on both Linux and Windows 10 (PowerShell) using the following Nerdfonts font:
 - MesloLGS NF
 
+## Python modules
+The script uses *requests* and *rich* you can add them to you system with pip:
+```
+pip install requests rich
+```
 ## API keys
 To make this work you should add a file 'api.py' to the root of the project (at the level opf main.py) which contains your api keys:
 ```
