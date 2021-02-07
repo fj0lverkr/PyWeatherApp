@@ -21,3 +21,9 @@ data/__pycache__/constants.cpython-38.pyc
 data/__pycache__/WeatherData.cpython-38.pyc
 util/__pycache__/__init__.cpython-38.pyc
 util/__pycache__/MetaData.cpython-38.pyc
+__pycache__/api.cpython-37.pyc
+data/__pycache__/__init__.cpython-37.pyc
+data/__pycache__/constants.cpython-37.pyc
+data/__pycache__/WeatherData.cpython-37.pyc
+util/__pycache__/__init__.cpython-37.pyc
+util/__pycache__/MetaData.cpython-37.pyc
