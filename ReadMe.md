@@ -3,7 +3,7 @@ This is a small but versatile weather data script written in Python (3.8).
 
 Run main.py to get local weather data.
 
-Run main.py -h (--help) to get available parameters.
+Run main.py *-h* (*--help*) to get available parameters.
 
 Full example:
 ```
@@ -122,8 +122,10 @@ Should you want to use different icons, they can be easily replaced here.
 
 The script should technically also work with different glyph providers (e.g. FontAwesome) if you replace the icons in the above mentioned dictionary and use a compatible font in your terminal.
 
+Icons can be disabled using the *--veryboring* option, this will also disable the use of colors.
+
 ## Colors
-The script displays colors when neither the --boring nor --veryboring flags are used.
+The script displays colors when neither the *--boring* nor *--veryboring* flags are used.
 
 The colors are defined in a dictionary in the file data/constants.py:
 ```
