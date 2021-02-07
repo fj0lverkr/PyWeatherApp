@@ -16,6 +16,8 @@ def main(argv):
     language = "en"
     city = ""
     timeformat = "24"
+    boring = False
+    very_boring = False
     try:
         opts, _ = getopt.getopt(argv, OPTIONS, LONG_OPTIONS)
     except getopt.GetoptError:
@@ -58,6 +60,12 @@ def main(argv):
             elif opt == "--listlangs":
                 print_languages(console)
                 sys.exit(0)
+            elif opt == "--boring":
+                boring = True
+                very_boring = False
+            elif opt == "--veryboring":
+                very_boring = True
+                boring = False
             else:
                 print(USAGE)
                 sys.exit(2)
@@ -68,7 +76,7 @@ def main(argv):
             wdp = WeatherDataProvider(
                 OWMKEY, mdp.client_ip, mdp.derived_location, language, temperature_units)
             wdparser = WeatherDataParser(
-                wdp.get_weather_data(), temperature_units, timeformat)
+                wdp.get_weather_data(), temperature_units, timeformat, boring, very_boring)
             console.print(wdparser.parse_data())
         else:
             console.print("Unable to fetch weather data in time.")
