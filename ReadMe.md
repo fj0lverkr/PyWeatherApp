@@ -9,6 +9,7 @@ Full example:
 ```
 python main.py -c 'las vegas' -u imperial -t 12 -l nl
 ```
+![screenshot on GNU/Linux Manjaro](/screenshots/screenshot1.png)
 You can add something like the line above at the top of your $PROFILE (PowerShell) or .bashrc (.zshrc, etc) to have it set as a greeter each time you run your terminal of choice.
 
 Tested on both Linux and Windows 10 (PowerShell) using the following Nerdfonts font:
@@ -89,9 +90,9 @@ WEATHER_ICONS = {
             ""
         ],
         "direction": {
-            "N" : "",
+            "N": "",
             "NNE": "",
-            "NE" : "",
+            "NE": "",
             "ENE": "",
             "E": "",
             "ESE": "",
@@ -109,8 +110,8 @@ WEATHER_ICONS = {
     },
     "misc": {
         "feelslike": "",
-        "max": "ﬢ",
-        "min": "ﬠ",
+        "max": "",
+        "min": "",
         "pressure": "猪",
         "humidity": "",
         "eye": ""
@@ -120,3 +121,44 @@ WEATHER_ICONS = {
 Should you want to use different icons, they can be easily replaced here.
 
 The script should technically also work with different glyph providers (e.g. FontAwesome) if you replace the icons in the above mentioned dictionary and use a compatible font in your terminal.
+
+## Colors
+The script displays colors when neither the --boring nor --veryboring flags are used.
+
+The colors are defined in a dictionary in the file data/constants.py:
+```
+COLORS = {
+    'main': {
+        'day': 'spring_green2',
+        'night': 'slate_blue3'
+    },
+    'clear': {'day': 'light_goldenrod1',
+              'night': 'light_slate_grey'},
+    'stormy': 'light_slate_grey',
+    'rainy': 'sky_blue2',
+    'cloudy': 'grey70',
+    'snowy': 'light_cyan1',
+    'misty': 'grey78',
+    'sunset': 'orange3',
+    'temp': {
+        'hot': 'red1',
+        'warm': 'orange1',
+        'nice': 'honeydew2',
+        'cold': 'light_steel_blue1',
+        'freezing': 'bright_white'
+    },
+    'wind': {
+        'danger': 'red1',
+        'rough': 'orange1',
+        'mild': 'honeydew2',
+        'calm': 'spring_green2'
+    }
+}
+```
+Supported colors, should you want to change the current ones, can be found here: https://rich.readthedocs.io/en/latest/appendix/colors.html?highlight=colors
+
+- The base color changes depending on the time of day (daytime color when the current time is between sunrise and sunset).
+- The colors for sunrise and sunset are fixed.
+- The color for the weather description changes depending on the type of weather.
+- The color for the temperatures changes depending on a temperature scale.
+- The color for the wind data (Beaufort and direction) change depending on the Beaufort value.
