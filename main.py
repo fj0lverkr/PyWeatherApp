@@ -1,8 +1,8 @@
 import sys
 import getopt
 
-# from rich import print
 from rich.console import Console
+from rich.table import Table
 
 from api import OWMKEY
 from data.constants import OPTIONS, LONG_OPTIONS, UNITS, LANGUAGES, LANGUAGES_PRINTABLE, USAGE, TIMEFORMATS
@@ -11,6 +11,7 @@ from util.MetaData import MetaDataProvider
 
 
 def main(argv):
+    console = Console()
     temperature_units = "metric"
     language = "en"
     city = ""
@@ -55,13 +56,12 @@ def main(argv):
                         f"Invalid value for option {opt}, {arg} is not in {LANGUAGES}.")
                     sys.exit(2)
             elif opt == "--listlangs":
-                print_languages()
+                print_languages(console)
                 sys.exit(0)
             else:
                 print(USAGE)
                 sys.exit(2)
 
-    console = Console()
     with console.status("[bold green]Fetching weather...", spinner='weather') as _:
         mdp = MetaDataProvider(location=city)
         if mdp.client_online:
@@ -74,10 +74,14 @@ def main(argv):
             console.print("Unable to fetch weather data in time.")
 
 
-def print_languages():
+def print_languages(console):
     print("These are the languages supported by Openweathermap:")
+    table = Table(show_header=True, header_style="bold magenta")
+    table.add_column("Value")
+    table.add_column("Language")
     for k, l in LANGUAGES_PRINTABLE.items():
-        print(f"\t{l}: {k}")
+        table.add_row(f"{l}", f"{k}")
+    console.print(table)
 
 
 if __name__ == "__main__":
