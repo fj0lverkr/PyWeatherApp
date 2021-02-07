@@ -1,6 +1,6 @@
 OPTIONS = "hu:l:c:t:"
 LONG_OPTIONS = ["help", "units=", "language=",
-                "city=", "timeformat=", "listlangs"]
+                "city=", "timeformat=", "listlangs", "boring", "veryboring"]
 UNITS = ["metric", "imperial"]
 TIMEFORMATS = ["12", "24"]
 USAGE = "Usage: main.py -h -u -l -c -t"
@@ -10,6 +10,8 @@ USAGE += "\n\t-l, --language: language code (see --listlangs for available optio
 USAGE += "\n\t-c, --city: city for which the weather should be retrieved. Defaults to approximate location (based on IP address)."
 USAGE += "\n\t-t, --timeformat: preferred time format (12 or 24), defaults to 24."
 USAGE += "\n\t--listlangs: show a list of available languages."
+USAGE += "\n\t--boring: removes the pretty colors, if used together with --veryboring it will overrule it."
+USAGE += "\n\t--veryboring removes the pretty colors and (most) of the icons, if used after with --boring it will overrule it."
 USAGE += "\ntNote that none of these options are required, the program will run on defaults."
 
 WEATHER_ICONS = {
@@ -61,9 +63,9 @@ WEATHER_ICONS = {
             ""
         ],
         "direction": {
-            "N" : "",
+            "N": "",
             "NNE": "",
-            "NE" : "",
+            "NE": "",
             "ENE": "",
             "E": "",
             "ESE": "",
@@ -81,11 +83,39 @@ WEATHER_ICONS = {
     },
     "misc": {
         "feelslike": "",
-        "max": "ﬢ",
-        "min": "ﬠ",
+        "max": "",
+        "min": "",
         "pressure": "猪",
         "humidity": "",
         "eye": ""
+    }
+}
+
+COLORS = {
+    'main': {
+        'day': 'spring_green2',
+        'night': 'slate_blue3'
+    },
+    'clear': {'day': 'light_goldenrod1',
+              'night': 'light_slate_grey'},
+    'stormy': 'light_slate_grey',
+    'rainy': 'sky_blue2',
+    'cloudy': 'grey70',
+    'snowy': 'light_cyan1',
+    'misty': 'grey78',
+    'sunset': 'orange3',
+    'temp': {
+        'hot': 'red1',
+        'warm': 'orange1',
+        'nice': 'honeydew2',
+        'cold': 'light_steel_blue1',
+        'freezing': 'bright_white'
+    },
+    'wind': {
+        'danger': 'red1',
+        'rough': 'orange1',
+        'mild': 'honeydew2',
+        'calm': 'spring_green2'
     }
 }
 
