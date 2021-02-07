@@ -30,7 +30,7 @@ The openweathermap key (OWMKEY) can be obtained by creating a free acount on htt
 
 ## What are the API's for?
 - The openweathermap API is used to get weather data using a given location in latitude and longitude.
-- To get the location, the user either provides one using the -c (--city) option, which then gets translated to lat/long using the Opencagedata API.
+- To get the location, the user either provides one using the *-c* (*--city*) option, which then gets translated to lat/long using the Opencagedata API.
 - Alternatively, when the user doesn't provide a location, the current location is estimated from the user's IP, making use of the following API's:
   - https://api.ipify.org for the user's public IP
   - https://ipapi.co/{your_ip}/latlong/ to translate this IP to lat/long.
