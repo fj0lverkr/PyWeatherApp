@@ -1,6 +1,8 @@
 import sys
 import getopt
 
+from rich.console import Console
+
 from api import OWMKEY
 from data.constants import OPTIONS, LONG_OPTIONS, UNITS, LANGUAGES, LANGUAGES_PRINTABLE, USAGE, TIMEFORMATS
 from data.WeatherData import WeatherDataProvider, WeatherDataParser
@@ -58,15 +60,17 @@ def main(argv):
                 print(USAGE)
                 sys.exit(2)
 
-    mdp = MetaDataProvider(location=city)
-    if mdp.client_online :
-        wdp = WeatherDataProvider(
-            OWMKEY, mdp.client_ip, mdp.derived_location, language, temperature_units)
-        wdparser = WeatherDataParser(
-            wdp.get_weather_data(), temperature_units, timeformat)
-        print(wdparser.parse_data())
-    else:
-        print("Unable to fetch weather data in time.")
+    console = Console()
+    with console.status("[bold green]Fetching weather...", spinner='weather') as _:
+        mdp = MetaDataProvider(location=city)
+        if mdp.client_online:
+            wdp = WeatherDataProvider(
+                OWMKEY, mdp.client_ip, mdp.derived_location, language, temperature_units)
+            wdparser = WeatherDataParser(
+                wdp.get_weather_data(), temperature_units, timeformat)
+            print(wdparser.parse_data())
+        else:
+            print("Unable to fetch weather data in time.")
 
 
 def print_languages():
