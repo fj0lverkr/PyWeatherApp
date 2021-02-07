@@ -16,7 +16,7 @@ Tested on both Linux and Windows 10 (PowerShell) using the following Nerdfonts f
 - MesloLGS NF
 
 ## Python modules
-The script uses *requests* and *rich* you can add them to you system with pip:
+The script uses *requests* and *rich*, you can add them to you system with pip:
 ```
 pip install requests rich
 ```
