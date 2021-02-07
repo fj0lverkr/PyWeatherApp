@@ -1,6 +1,7 @@
 import sys
 import getopt
 
+# from rich import print
 from rich.console import Console
 
 from api import OWMKEY
@@ -68,9 +69,9 @@ def main(argv):
                 OWMKEY, mdp.client_ip, mdp.derived_location, language, temperature_units)
             wdparser = WeatherDataParser(
                 wdp.get_weather_data(), temperature_units, timeformat)
-            print(wdparser.parse_data())
+            console.print(wdparser.parse_data())
         else:
-            print("Unable to fetch weather data in time.")
+            console.print("Unable to fetch weather data in time.")
 
 
 def print_languages():
