@@ -1,6 +1,8 @@
 import sys
 import getopt
 
+from os import name as osname
+
 from rich.console import Console
 from rich.table import Table
 
@@ -17,6 +19,10 @@ def main(argv):
     timeformat = "24"
     boring = False
     very_boring = False
+    if osname == 'nt':
+        spinner = 'bouncingBall'
+    else:
+        spinner = 'weather'
 
     try:
         opts, _ = getopt.getopt(argv, OPTIONS, LONG_OPTIONS)
@@ -70,7 +76,7 @@ def main(argv):
                 print(USAGE)
                 sys.exit(2)
 
-    with console.status("[bold green]Fetching weather...", spinner='weather') as _:
+    with console.status("[bold]Fetching weather...", spinner=spinner) as _:
         mdp = MetaDataProvider(location=city)
         if mdp.client_online:
             wdp = WeatherDataProvider(
