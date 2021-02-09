@@ -9,7 +9,6 @@ from data.constants import OPTIONS, LONG_OPTIONS, UNITS, LANGUAGES, LANGUAGES_PR
 from data.WeatherData import WeatherDataProvider, WeatherDataParser
 from util.MetaData import MetaDataProvider
 
-
 def main(argv):
     console = Console()
     temperature_units = "metric"
@@ -18,6 +17,7 @@ def main(argv):
     timeformat = "24"
     boring = False
     very_boring = False
+
     try:
         opts, _ = getopt.getopt(argv, OPTIONS, LONG_OPTIONS)
     except getopt.GetoptError:
