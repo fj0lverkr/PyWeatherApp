@@ -130,34 +130,75 @@ The script displays colors when neither the *--boring* nor *--veryboring* flags 
 The colors are defined in a dictionary in the file data/constants.py:
 ```
 COLORS = {
-    'main': {
-        'day': 'spring_green2',
-        'night': 'slate_blue3'
+    'powershell': {
+        'main': {
+            'day': 'green',
+            'night': 'blue'
+        },
+        'clear': {'day': 'yellow',
+                'night': 'blue'},
+        'stormy': 'red',
+        'rainy': 'blue',
+        'cloudy': 'cyan',
+        'snowy': 'white',
+        'misty': 'cyan',
+        'sunset': 'magenta',
+        'temp': {
+            'hot': 'red',
+            'warm': 'yellow',
+            'nice': 'magenta',
+            'cold': 'blue',
+            'freezing': 'white'
+        },
+        'wind': {
+            'danger': 'red',
+            'rough': 'yellow',
+            'mild': 'green',
+            'calm': 'white'
+        }
     },
-    'clear': {'day': 'light_goldenrod1',
-              'night': 'light_slate_grey'},
-    'stormy': 'light_slate_grey',
-    'rainy': 'sky_blue2',
-    'cloudy': 'grey70',
-    'snowy': 'light_cyan1',
-    'misty': 'grey78',
-    'sunset': 'orange3',
-    'temp': {
-        'hot': 'red1',
-        'warm': 'orange1',
-        'nice': 'honeydew2',
-        'cold': 'light_steel_blue1',
-        'freezing': 'bright_white'
-    },
-    'wind': {
-        'danger': 'red1',
-        'rough': 'orange1',
-        'mild': 'honeydew2',
-        'calm': 'spring_green2'
+    'unix': {
+        'main': {
+            'day': 'spring_green2',
+            'night': 'slate_blue3'
+        },
+        'clear': {'day': 'light_goldenrod1',
+                'night': 'light_slate_grey'},
+        'stormy': 'light_slate_grey',
+        'rainy': 'sky_blue2',
+        'cloudy': 'grey70',
+        'snowy': 'light_cyan1',
+        'misty': 'grey78',
+        'sunset': 'orange3',
+        'temp': {
+            'hot': 'red1',
+            'warm': 'orange1',
+            'nice': 'honeydew2',
+            'cold': 'light_steel_blue1',
+            'freezing': 'bright_white'
+        },
+        'wind': {
+            'danger': 'red1',
+            'rough': 'orange1',
+            'mild': 'honeydew2',
+            'calm': 'spring_green2'
+        }
     }
 }
 ```
 Supported colors, should you want to change the current ones, can be found here: https://rich.readthedocs.io/en/latest/appendix/colors.html?highlight=colors
+
+Note that for Microsoft Windows ony 8 bit colors are supported, so you can only use the following colors within COLORS['powershell']:
+- red
+- blue
+- yellow
+- green
+- white
+- black
+- magenta
+- cyan
+
+Colors follow the following logic:
 
 - The base color changes depending on the time of day (daytime color when the current time is between sunrise and sunset).
 - The colors for sunrise and sunset are fixed.
