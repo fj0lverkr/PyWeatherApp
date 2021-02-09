@@ -12,6 +12,8 @@ python main.py -c 'las vegas' -u imperial -t 12 -l nl
 ![screenshot on GNU/Linux Manjaro](/screenshots/screenshot1.png)
 You can add something like the line above at the top of your $PROFILE (PowerShell) or .bashrc (.zshrc, etc) to have it set as a greeter each time you run your terminal of choice.
 
+![screenshot of greeter script in PowerShell](/screenshots/screenshot2.png)
+
 Tested on both Linux and Windows 10 (PowerShell) using the following Nerdfonts font:
 - MesloLGS NF
 
