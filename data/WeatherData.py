@@ -1,8 +1,7 @@
 from requests import get
 from datetime import datetime
-from os import name as osname
 
-from data.constants import WEATHER_ICONS as IC, COLORS
+from data.constants import WEATHER_ICONS as IC
 
 
 class WeatherDataProvider:
@@ -18,21 +17,16 @@ class WeatherDataProvider:
 
 
 class WeatherDataParser:
-    def __init__(self, json_data, u, tf, color_off, color_icons_off):
+    def __init__(self, json_data, u, tf, colors, color_off, color_icons_off):
         self.data = json_data
         self.units = u
+        self.colors = colors
         self.color_off = color_off
         self.color_icons_off = color_icons_off
         if self.color_icons_off:
             self.timeformat = '%H:%M' if tf == "24" else '%I:%M %p'
         else:
             self.timeformat = '%H[blink]:[/blink]%M' if tf == "24" else '%I[blink]:[/blink]%M %p'
-
-        # Powershell only supports a very small set of colors, so we'll need to use a different set of colors when the OS is "nt" (Windows)
-        if osname == "nt":
-            self.colors_root = "powershell"
-        else:
-            self.colors_root = "unix"
 
     def parse_data(self):
         location = self.data['name']
@@ -107,47 +101,47 @@ class WeatherDataParser:
 
         if 199 < weather_icon_id < 233:
             weather_icon = IC[day_night]['thunderstorm']
-            descr_color = COLORS[self.colors_root]['stormy']
+            descr_color = self.colors['stormy']
         elif (299 < weather_icon_id < 322) or 499 < weather_icon_id < 532:
             weather_icon = IC[day_night]['rain']
-            descr_color = COLORS[self.colors_root]['rainy']
+            descr_color = self.colors['rainy']
             if rain_1h > 0 and rain_3h > 0:
                 weather_description += f" ({rain_1h} mm/1h, {rain_3h} mm/3h)"
             elif rain_1h > 0:
                 weather_description += f" ({rain_1h} mm/1h)"
         elif 599 < weather_icon_id < 623:
             weather_icon = IC[day_night]['snow']
-            descr_color = COLORS[self.colors_root]['snowy']
+            descr_color = self.colors['snowy']
             if snow_1h > 0 and snow_3h > 0:
                 weather_description += f" ({snow_1h} mm/1h, {snow_3h} mm/3h)"
             elif snow_1h > 0:
                 weather_description += f" ({snow_1h} mm/1h)"
         elif 700 < weather_icon_id < 782:
             weather_icon = IC[day_night]['mist']
-            descr_color = COLORS[self.colors_root]['misty']
+            descr_color = self.colors['misty']
         elif weather_icon_id == 800:
             weather_icon = IC[day_night]['clear_sky']
-            descr_color = COLORS[self.colors_root]['clear'][day_night]
+            descr_color = self.colors[f'clear_{day_night}']
         elif weather_icon_id == 801:
             weather_icon = IC[day_night]['few_clouds']
-            descr_color = COLORS[self.colors_root]['cloudy']
+            descr_color = self.colors['cloudy']
             if clouds_pct > 0:
                 weather_description += f" ({clouds_pct}%)"
         elif weather_icon_id == 802:
             weather_icon = IC[day_night]['scattered_clouds']
-            descr_color = COLORS[self.colors_root]['cloudy']
+            descr_color = self.colors['cloudy']
             if clouds_pct > 0:
                 weather_description += f" ({clouds_pct}%)"
         elif weather_icon_id in [803, 804]:
             weather_icon = IC[day_night]['broken_clouds']
-            descr_color = COLORS[self.colors_root]['cloudy']
+            descr_color = self.colors['cloudy']
             if clouds_pct > 0:
                 weather_description += f" ({clouds_pct}%)"
         else:
             weather_icon = IC[day_night]['clear_sky']
-            descr_color = COLORS[self.colors_root]['clear'][day_night]
+            descr_color = self.colors[f'clear_{day_night}']
 
-        base_color = COLORS[self.colors_root]['main'][day_night]
+        base_color = self.colors[f'main_{day_night}']
         temp_color = self.color_code_temp(temp)
         feels_color = self.color_code_temp(feels_like)
         min_color = self.color_code_temp(min)
@@ -173,7 +167,7 @@ class WeatherDataParser:
             extras = f"\n {pressure}hPa, {humidity}%, {visibility}m, {self.beaufort} BFT {wind_direction}"
         else:
             location = f" [{base_color}]{location}"
-            time = f"{current_time_pretty} ([/{base_color}][{COLORS[self.colors_root]['clear']['day']}]{sunrise_icon}{sunrise_pretty}[/{COLORS[self.colors_root]['clear']['day']}] [{COLORS[self.colors_root]['sunset']}]{sunset_icon}{sunset_pretty}[/{COLORS[self.colors_root]['sunset']}][{base_color}]):[/{base_color}]"
+            time = f"{current_time_pretty} ([/{base_color}][{self.colors['clear_day']}]{sunrise_icon}{sunrise_pretty}[/{self.colors['clear_day']}] [{self.colors['sunset']}]{sunset_icon}{sunset_pretty}[/{self.colors['sunset']}][{base_color}]):[/{base_color}]"
             descr = f"\n [{descr_color}]{weather_icon}{weather_description},[/{descr_color}]"
             temp = f"[{temp_color}]{temp}{temp_icon}([{feels_color}]{feels_icon} {feels_like}{temp_icon}[/{feels_color}] "
             temp += f"[{min_color}]{min_icon} {min}{temp_icon}[/{min_color}] "
@@ -316,7 +310,7 @@ class WeatherDataParser:
                 color = 'freezing'
             else:
                 color = 'nice'
-        return COLORS[self.colors_root]['temp'][color]
+        return self.colors[f'temp_{color}']
 
     def color_code_bf(self):
         if 0 <= self.beaufort < 6:
@@ -327,4 +321,4 @@ class WeatherDataParser:
             color = 'rough'
         else:
             color = 'danger'
-        return COLORS[self.colors_root]['wind'][color]
+        return self.colors[f'wind_{color}']

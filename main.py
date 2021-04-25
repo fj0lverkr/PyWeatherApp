@@ -1,8 +1,6 @@
 import sys
 import getopt
 
-from os import name as osname
-
 from rich.console import Console
 from rich.table import Table
 
@@ -16,6 +14,7 @@ def main(argv):
     app_config = AppConfig(APPNAME, APPAUTHOR, COLORS, WEATHER_ICONS)
     app_config.init_app()
     api_keys = app_config.get_api_keys()
+    app_colors = app_config.get_colors()
 
     console = Console()
     temperature_units = "metric"
@@ -24,10 +23,7 @@ def main(argv):
     timeformat = "24"
     boring = False
     very_boring = False
-    if osname == 'nt':
-        spinner = 'bouncingBall'
-    else:
-        spinner = 'weather'
+    spinner = 'circleHalves'
 
     try:
         opts, _ = getopt.getopt(argv, OPTIONS, LONG_OPTIONS)
@@ -81,13 +77,13 @@ def main(argv):
                 print(USAGE)
                 sys.exit(2)
 
-    with console.status("[bold]Fetching weather...", spinner=spinner) as _:
+    with console.status("Fetching weather...", spinner=spinner) as _:
         mdp = MetaDataProvider(api_keys['OPENCAGE'], location=city)
         if mdp.client_online:
             wdp = WeatherDataProvider(
                 api_keys['OWMKEY'], mdp.client_ip, mdp.derived_location, language, temperature_units)
             wdparser = WeatherDataParser(
-                wdp.get_weather_data(), temperature_units, timeformat, boring, very_boring)
+                wdp.get_weather_data(), temperature_units, timeformat, app_colors, boring, very_boring)
             console.print(wdparser.parse_data())
         else:
             console.print("Unable to fetch weather data in time.")

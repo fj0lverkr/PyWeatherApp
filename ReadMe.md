@@ -10,6 +10,7 @@ Full example:
 python main.py -c 'las vegas' -u imperial -t 12 -l nl
 ```
 ![screenshot on GNU/Linux Manjaro](/screenshots/screenshot1.png)
+
 You can add something like the line above at the top of your $PROFILE (PowerShell) or .bashrc (.zshrc, etc) to have it set as a greeter each time you run your terminal of choice.
 
 ![screenshot of greeter script in PowerShell](/screenshots/screenshot2.PNG)
@@ -25,8 +26,8 @@ pip install requests appdirs rich
 ## API keys
 When the script runs for the first time there will be two .conf files created and a message is shown to the user, asking them to add their API keys to the correct file:
 ```
-owmkey = "YOUR_API_KEY"
-opencage = "YOUR_API_KEY"
+owmkey = YOUR_API_KEY
+opencage = YOUR_API_KEY
 ```
 The openweathermap key (owmkey) can be obtained by creating a free acount on https://openweathermap.org/, the Opencage key (opencage) can be obtained similarly (and also for free) on https://opencagedata.com/
 
@@ -131,68 +132,12 @@ Icons can be disabled using the *--veryboring* option, this will also disable th
 ## Colors
 The script displays colors when neither the *--boring* nor *--veryboring* flags are used.
 
-The colors are defined in a dictionary in the file data/constants.py:
-```
-COLORS = {
-    'powershell': {
-        'main': {
-            'day': 'green',
-            'night': 'blue'
-        },
-        'clear': {'day': 'yellow',
-                'night': 'blue'},
-        'stormy': 'red',
-        'rainy': 'blue',
-        'cloudy': 'cyan',
-        'snowy': 'white',
-        'misty': 'cyan',
-        'sunset': 'magenta',
-        'temp': {
-            'hot': 'red',
-            'warm': 'yellow',
-            'nice': 'magenta',
-            'cold': 'blue',
-            'freezing': 'white'
-        },
-        'wind': {
-            'danger': 'red',
-            'rough': 'yellow',
-            'mild': 'green',
-            'calm': 'white'
-        }
-    },
-    'unix': {
-        'main': {
-            'day': 'spring_green2',
-            'night': 'slate_blue3'
-        },
-        'clear': {'day': 'light_goldenrod1',
-                'night': 'light_slate_grey'},
-        'stormy': 'light_slate_grey',
-        'rainy': 'sky_blue2',
-        'cloudy': 'grey70',
-        'snowy': 'light_cyan1',
-        'misty': 'grey78',
-        'sunset': 'orange3',
-        'temp': {
-            'hot': 'red1',
-            'warm': 'orange1',
-            'nice': 'honeydew2',
-            'cold': 'light_steel_blue1',
-            'freezing': 'bright_white'
-        },
-        'wind': {
-            'danger': 'red1',
-            'rough': 'orange1',
-            'mild': 'honeydew2',
-            'calm': 'spring_green2'
-        }
-    }
-}
-```
-Supported colors, should you want to change the current ones, can be found here: https://rich.readthedocs.io/en/latest/appendix/colors.html?highlight=colors
+The default colors are defined in a dictionary in the file data/constants.py, these values are copied over to the *colors.conf* file in either *C:\Users\USER\appdata\local\Fj0lverkr\PyWeatherApp* (Windows) or */home/USER/.config/PyWeatherApp/* (Linux/Mac), the app then reads them from this file.
 
-Note that for Microsoft Windows ony 8 bit colors are supported, so you can only use the following colors within COLORS['powershell']:
+Supported colors, should you want to change the current ones, can be found here: https://rich.readthedocs.io/en/latest/appendix/colors.html?highlight=colors, colors can be customized in the config file.
+Reverting to default colors can be done by removing the *colors.conf file*, it will then be recreated with default values upon the next run.
+
+Unless you are using a non-default terminal emulator (e.g. Fluent Terminal https://github.com/felixse/FluentTerminal) only 8-bit colors are supported, non-8-bit colors will be approximated to one of the values below:
 - red
 - blue
 - yellow
