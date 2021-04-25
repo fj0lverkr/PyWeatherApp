@@ -6,12 +6,17 @@ from os import name as osname
 from rich.console import Console
 from rich.table import Table
 
-from api import OWMKEY
-from data.constants import OPTIONS, LONG_OPTIONS, UNITS, LANGUAGES, LANGUAGES_PRINTABLE, USAGE, TIMEFORMATS
+from data.constants import OPTIONS, LONG_OPTIONS, UNITS, LANGUAGES, LANGUAGES_PRINTABLE, USAGE, TIMEFORMATS, APPNAME, APPAUTHOR, COLORS, WEATHER_ICONS
 from data.WeatherData import WeatherDataProvider, WeatherDataParser
 from util.MetaData import MetaDataProvider
+from util.AppConfig import AppConfig
+
 
 def main(argv):
+    app_config = AppConfig(APPNAME, APPAUTHOR, COLORS, WEATHER_ICONS)
+    app_config.init_app()
+    api_keys = app_config.get_api_keys()
+
     console = Console()
     temperature_units = "metric"
     language = "en"
@@ -77,10 +82,10 @@ def main(argv):
                 sys.exit(2)
 
     with console.status("[bold]Fetching weather...", spinner=spinner) as _:
-        mdp = MetaDataProvider(location=city)
+        mdp = MetaDataProvider(api_keys['OPENCAGE'], location=city)
         if mdp.client_online:
             wdp = WeatherDataProvider(
-                OWMKEY, mdp.client_ip, mdp.derived_location, language, temperature_units)
+                api_keys['OWMKEY'], mdp.client_ip, mdp.derived_location, language, temperature_units)
             wdparser = WeatherDataParser(
                 wdp.get_weather_data(), temperature_units, timeformat, boring, very_boring)
             console.print(wdparser.parse_data())

@@ -27,7 +27,7 @@ class WeatherDataParser:
             self.timeformat = '%H:%M' if tf == "24" else '%I:%M %p'
         else:
             self.timeformat = '%H[blink]:[/blink]%M' if tf == "24" else '%I[blink]:[/blink]%M %p'
-        
+
         # Powershell only supports a very small set of colors, so we'll need to use a different set of colors when the OS is "nt" (Windows)
         if osname == "nt":
             self.colors_root = "powershell"
@@ -100,7 +100,8 @@ class WeatherDataParser:
         # Icons and colors
         temp_icon = IC['units'][temp_unit]
         sunrise_icon, sunset_icon = IC['time'].values()
-        feels_icon, max_icon, min_icon, press_icon, humid_icon, visibility_icon = IC['misc'].values()
+        feels_icon, max_icon, min_icon, press_icon, humid_icon, visibility_icon = IC['misc'].values(
+        )
         beaufort_icon = IC['wind']['speed'][self.beaufort]
         wind_direction_icon = IC['wind']['direction'][wind_direction]
 

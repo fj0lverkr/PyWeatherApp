@@ -1,10 +1,11 @@
 from requests import get, ConnectionError, Timeout
-from api import OPENCAGE
+
 
 class MetaDataProvider:
-    def __init__(self, location=""):
+    def __init__(self, api_key, location=""):
+        self.api_key = api_key
         self.location = location
-        try: 
+        try:
             get("https://api.ipify.org", timeout=20)
             self.internet_connected = True
             if self.location == "":
@@ -14,8 +15,8 @@ class MetaDataProvider:
             else:
                 self.ip = "127.0.0.1"
                 self.latlong = get(
-                    f"https://api.opencagedata.com/geocode/v1/json?q={self.location}&key={OPENCAGE}").json()
-            
+                    f"https://api.opencagedata.com/geocode/v1/json?q={self.location}&key={self.api_key}").json()
+
         except(ConnectionError, Timeout):
             self.ip = "127.0.0.1"
             self.latlong = [0, 0]

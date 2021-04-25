@@ -18,17 +18,19 @@ Tested on both Linux and Windows 10 (PowerShell) using the following Nerdfonts f
 - MesloLGS NF
 
 ## Python modules
-The script uses *requests* and *rich*, you can add them to you system with pip:
+The script uses *requests*, *appdirs* and *rich*, you can add them to you system with pip:
 ```
-pip install requests rich
+pip install requests appdirs rich
 ```
 ## API keys
-To make this work you should add a file 'api.py' to the root of the project (at the level opf main.py) which contains your api keys:
+When the script runs for the first time there will be two .conf files created and a message is shown to the user, asking them to add their API keys to the correct file:
 ```
-OWMKEY = "YOUR_API_KEY"
-OPENCAGE = "YOUR_API_KEY"
+owmkey = "YOUR_API_KEY"
+opencage = "YOUR_API_KEY"
 ```
-The openweathermap key (OWMKEY) can be obtained by creating a free acount on https://openweathermap.org/, the Opencage key (OPENCAGE) can be obtained similarly (and also for free) on https://opencagedata.com/
+The openweathermap key (owmkey) can be obtained by creating a free acount on https://openweathermap.org/, the Opencage key (opencage) can be obtained similarly (and also for free) on https://opencagedata.com/
+
+After these are added to the file, the next time the user runs the script it should use the keys to fetch the weatherdata.
 
 ## What are the API's for?
 - The openweathermap API is used to get weather data using a given location in latitude and longitude.

@@ -1,3 +1,6 @@
+APPNAME = "PyWeatherApp"
+APPAUTHOR = "Fj0lverkr"
+
 OPTIONS = "hu:l:c:t:"
 LONG_OPTIONS = ["help", "units=", "language=",
                 "city=", "timeformat=", "listlangs", "boring", "veryboring"]
@@ -98,7 +101,7 @@ COLORS = {
             'night': 'blue'
         },
         'clear': {'day': 'yellow',
-                'night': 'blue'},
+                  'night': 'blue'},
         'stormy': 'red',
         'rainy': 'blue',
         'cloudy': 'cyan',
@@ -125,7 +128,7 @@ COLORS = {
             'night': 'slate_blue3'
         },
         'clear': {'day': 'light_goldenrod1',
-                'night': 'light_slate_grey'},
+                  'night': 'light_slate_grey'},
         'stormy': 'light_slate_grey',
         'rainy': 'sky_blue2',
         'cloudy': 'grey70',
