@@ -42,7 +42,7 @@ class WeatherDataParser:
             sunset + shift_seconds).strftime(self.timeformat)
         current_time_pretty = datetime.utcfromtimestamp(
             current_time + shift_seconds).strftime(self.timeformat)
-        temp, feels_like, min, max, pressure, humidity = self.data['main'].values(
+        temp, feels_like, min, max, pressure, humidity, *_ = self.data['main'].values(
         )
         visibility = self.data['visibility']
         self.beaufort = self.convert_to_beaufort(
